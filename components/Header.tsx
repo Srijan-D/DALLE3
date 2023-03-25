@@ -18,7 +18,7 @@ function Header() {
                     </h2>
                 </div>
             </div>
-
+            {/* right div */}
             <div className='flex divide-x text-xs md:text-base items-center text-gray-500'>
                 <Link
                     href="https://github.com/Srijan-D"
@@ -34,7 +34,7 @@ function Header() {
                 </Link>
             </div>
 
-            {/* right div */}
+
         </header>
     )
 }
