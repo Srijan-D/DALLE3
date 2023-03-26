@@ -14,11 +14,10 @@ function Images() {
         isLoading,
         mutate: refreshImages,
         isValidating,
-    } = useSWR('/api/getImages', fetchImages, {
+    } = useSWR("images", fetchImages, {
         revalidateOnFocus: false,
     });
-    console.log(images)
-
+    
     return <div>
         <button onClick={() => refreshImages(images)} className="fixed bottom-10 right-10 bg-violet-400/90 text-white px-5 py-3 rounded-md hover:bg-violet-500 focus:outline-none focus:ring-2 font-bold z-20">
             {/* images is passed inside for optimistic updation */}
