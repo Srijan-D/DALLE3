@@ -4,14 +4,16 @@ import { useState } from "react"
 import useSWR from "swr"
 function PromptInput() {
     const [input, setInput] = useState("")
-    const { data:suggestion, error, isLoading,mutate,isValidating } = useSWR('/api/suggestion', fetchSuggestionFromChatGPT, {
+    const { data: suggestion, error, isLoading, mutate, isValidating } = useSWR('/api/suggestion', fetchSuggestionFromChatGPT, {
         revalidateOnFocus: false,
     })
+    // console.log(suggestion, isLoading)
+    const loading = isLoading || isValidating
     return (
         <div className="m-10">
             <form className="flex flex-col lg:flex-row lg:divide-x-2 shadow-md shadow-slate-400/10 rounded-md">
                 <textarea className="flex-1 outline-none rounded-md p-4"
-                    placeholder="Enter a prompt"
+                    placeholder={(loading && "ChatGPT is thinking of a suggestion...") || suggestion || "Enter a prompt"}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                 />
@@ -28,8 +30,15 @@ function PromptInput() {
 
                 <button type="button"
                     className="text-violet-400 bg-white p-4 transition-colors duration-200 rounded-b-md font-bold
-                ">New suggestion</button>
+                "onClick={mutate}>New suggestion</button>
             </form>
+            {input && (
+                <p className="italic pt-2 pl-2 font-light">
+                    Suggestion:{" "}<span className="text-violet-500">
+                        {loading ? "ChatGPT is thinking of a suggestion..." : suggestion}
+                    </span>
+                </p>
+            )}
 
         </div >
     )
