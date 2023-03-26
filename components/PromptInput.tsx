@@ -1,13 +1,18 @@
 "use client"
 import fetchSuggestionFromChatGPT from "@/lib/fetchSuggestionFromChatGPT"
+import fetchImages from "@/lib/fetchImages"
 import { useState } from "react"
 import useSWR from "swr"
+import toast from "react-hot-toast"
 function PromptInput() {
     const [input, setInput] = useState("")
     const { data: suggestion, error, isLoading, mutate, isValidating } = useSWR('/api/suggestion', fetchSuggestionFromChatGPT, {
         revalidateOnFocus: false,
     })
-    // console.log(suggestion, isLoading)
+    const { mutate: updateImages } = useSWR("images", fetchImages, {
+        revalidateOnFocus: false,
+    })
+
     const loading = isLoading || isValidating
 
     const submitPrompt = async (useSuggestion?: boolean) => {
@@ -16,6 +21,12 @@ function PromptInput() {
         console.log(inputPrompt)
 
         const p = useSuggestion ? suggestion : inputPrompt
+        const notificationPrompt = p.length > 20 ? `${p.slice(0, 20)}...` : p
+
+        const notification = toast.loading(
+            `DALLE is generating an image for "${notificationPrompt}"`
+        )
+
 
         const res = await fetch('/api/generateImage', {
             method: 'POST',
@@ -25,7 +36,17 @@ function PromptInput() {
             body: JSON.stringify({ prompt: p })
         })
         const data = await res.json()
+        if(data.error){
+            toast.error(data.error,{
+                id: notification
+            })
+        }else{
+            toast.success(`Your AI image has been generated!`,{
+                id: notification
+            })
+        }
 
+        updateImages();
     }
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -35,7 +56,7 @@ function PromptInput() {
     return (
         <div className="m-10">
             <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row lg:divide-x-2 shadow-md shadow-slate-400/10 rounded-md">
-                <textarea className="flex-1 outline-none rounded-md p-4"
+                <textarea className="flex-1 outline-none rounded-md p-4 overflow-hidden"
                     placeholder={(loading && "ChatGPT is thinking of a suggestion...") || suggestion || "Enter a prompt"}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
