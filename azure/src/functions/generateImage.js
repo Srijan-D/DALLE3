@@ -9,11 +9,11 @@ const accountName = process.env.accountName;
 const containerName = "images";
 
 app.http("generateImage", {
-    method: ["POST"],
+    methods: ["POST"],
     authLevel: "anonymous",
-    handler: async (request, context) => {
-        const { prompt } = await request.body;
-        console.log("PROMPT=>", prompt);
+    handler: async (request) => {
+        const { prompt } = await request.json();
+        console.log(`PROMPT=> ${prompt}`);
 
         const response = await openai.createImage({
             prompt: prompt,
@@ -43,5 +43,13 @@ app.http("generateImage", {
         //getting access to the blob inside the container
         const blockBlobClient = containerClient.getBlockBlobClient(file_name);
 
-    }
+        try {
+            await blockBlobClient.uploadData(arrayBuffer)
+            console.log("Image uploaded to Azure Blob Storage")
+
+        } catch (error) {
+            console.log(" Error uploading image ", error.message)
+        }
+        return { body: "Image uploaded successfully" }
+    },
 })
