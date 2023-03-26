@@ -19,10 +19,10 @@ function Images() {
     });
     console.log(images)
 
-    return <div >
-        <button onClick={()=>refreshImages(images)}>
+    return <div>
+        <button onClick={() => refreshImages(images)} className="fixed bottom-10 right-10 bg-violet-400/90 text-white px-5 py-3 rounded-md hover:bg-violet-500 focus:outline-none focus:ring-2 font-bold z-20">
             {/* images is passed inside for optimistic updation */}
-            {!isLoading && isValidating ? "Refreshing..." : "Refresh Images"}
+            {(!isLoading && isValidating) ? "Refreshing..." : "Refresh Images"}
         </button>
 
         {isLoading && (
