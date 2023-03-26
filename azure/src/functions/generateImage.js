@@ -39,11 +39,13 @@ app.http("generateImage", {
         //generating time stamp( for being able to display it according to the time) and filename for the image
         const timestamp = new Date().getTime();
         const file_name = `${prompt}_${timestamp}.png`;
+        //example caa_1629190000000.png
 
         //getting access to the blob inside the container
         const blockBlobClient = containerClient.getBlockBlobClient(file_name);
 
         try {
+
             await blockBlobClient.uploadData(arrayBuffer)
             console.log("Image uploaded to Azure Blob Storage")
 
