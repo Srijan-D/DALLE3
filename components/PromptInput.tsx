@@ -36,19 +36,19 @@ function PromptInput() {
             body: JSON.stringify({ prompt: p })
         })
         const data = await res.json()
-        if(data.error){
-            toast.error(data.error,{
+        if (data.error) {
+            toast.error(data.error, {
                 id: notification
             })
-        }else{
-            toast.success(`Your AI image has been generated!`,{
+        } else {
+            toast.success(`Your AI image has been generated!`, {
                 id: notification
             })
         }
 
         updateImages();
     }
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         await submitPrompt();
     }
