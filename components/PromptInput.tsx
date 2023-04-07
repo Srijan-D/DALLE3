@@ -27,7 +27,6 @@ function PromptInput() {
             `DALLE is generating an image for "${notificationPrompt}"`
         )
 
-
         const res = await fetch('/api/generateImage', {
             method: 'POST',
             headers: {
