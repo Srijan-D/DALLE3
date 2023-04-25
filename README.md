@@ -1,4 +1,4 @@
-some bugs while using latest version of node tried testing with node 16.8.0 works fine with it
+Use Node version 16.8.0 for the time being (nvm use 16.8.0) as I work on an error encountered whilst connecting with azure client using the latest version of node. <br>
 Here's preview:
 ![image](https://user-images.githubusercontent.com/87586713/230597035-93d7c126-6ecd-4b10-af57-bcbce36c5191.png)
 ![image](https://user-images.githubusercontent.com/87586713/230597163-3bb9de39-876c-4ff8-87ab-c1ee25da07e6.png)
