@@ -1,6 +1,6 @@
 export async function GET(request: Request) {
     //Now our API communicates with Microsoft Azure Function Endpoint 
-    const response = await fetch("http://localhost:7071/api/getChatGPTSuggestion", {
+    const response = await fetch("https://image-generator2.azurewebsites.net/api/getChatGPTSuggestion?", {
         cache: 'no-store',
     })
 

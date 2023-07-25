@@ -1,5 +1,5 @@
 export async function GET(request: Request) {
-    const response = await fetch("http://localhost:7071/api/getImages", {
+    const response = await fetch("https://image-generator2.azurewebsites.net/api/getImages?", {
         cache: "no-store",
     })
     const blob = await response.blob();
