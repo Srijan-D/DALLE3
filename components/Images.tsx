@@ -42,6 +42,7 @@ function Images() {
                         </p>
                     </div>
                     <Image
+                         unoptimized={true}
                         src={image.url}
                         alt={image.name}
                         width={500}
