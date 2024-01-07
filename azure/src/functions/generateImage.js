@@ -2,7 +2,6 @@ const { app } = require('@azure/functions');
 const openai = require('../../lib/openai');
 const axios = require('axios');
 const generateSASToken = require('../../lib/generateSASToken');
-
 const { BlobServiceClient } = require('@azure/storage-blob');
 
 const accountName = process.env.accountName;
@@ -16,17 +15,16 @@ app.http("generateImage", {
         console.log(`PROMPT=> ${prompt}`);
 
         const response = await openai.createImage({
+            model: "dall-e-3",
             prompt: prompt,
             n: 1,//number of images to generate
-            size: '1024x1024'
+            size: '1024x1024',
         })
         image_url = response.data.data[0].url;
-
         //now we need to download the image and upload it to azure blob storage
         const res = await axios.get(image_url, { responseType: 'arraybuffer' });
         //arraybuffer is a binary representation of the image used to store the image in memory
         const arrayBuffer = res.data;
-
         sasToken = await generateSASToken();
 
         //getting access to the storage account  
@@ -40,12 +38,9 @@ app.http("generateImage", {
         const timestamp = new Date().getTime();
         const file_name = `${prompt}_${timestamp}.png`;
         //example caa_1629190000000.png
-
         //getting access to the blob inside the container
         const blockBlobClient = containerClient.getBlockBlobClient(file_name);
-
         try {
-
             await blockBlobClient.uploadData(arrayBuffer)
             console.log("Image uploaded to Azure Blob Storage")
 
