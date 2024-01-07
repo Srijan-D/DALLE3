@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const prompt = res.prompt;
 
   const response = await fetch(
-    "https://image-generator2.azurewebsites.net/api/generateimage?",
+    "https://ai-imagegenerator.azurewebsites.net/api/generateImage?",
     {
       method: "POST",
       headers: {
