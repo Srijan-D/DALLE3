@@ -22,7 +22,7 @@ function Header() {
       </div>
       {/* right div */}
       <div className="flex divide-x text-xs md:text-base items-center text-gray-500">
-        <Link href="https://github.com/Srijan-D" className="px-2 font-light">
+        <Link href="https://twitter.com/Srijan_Dby" className="px-2 font-light">
           Contact Me!
         </Link>
         <Link
